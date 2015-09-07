@@ -84,11 +84,8 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   plot.window(xlim = c(-rmax, rmax), ylim = c(-rmax, rmax), asp = 1)
 
   ## Draw a circular grid.
-  ## (a) The circles are really polygons with many vertices.
-  ## (b) The magic number "5" is choosen because a change of
-  ## direction of less than 5 degrees appears smooth.
-
-  grid <- seq(0, 2 * pi, length = 360 / 5 + 1)
+  ## - The circles are really polygons with many vertices.
+  grid <- seq(0, 2 * pi, length = 360 )
   for(rad in rpretty) {
     if(rad > 0) lines(rad * cos(grid), rad * sin(grid), col = "gray30")
   }
