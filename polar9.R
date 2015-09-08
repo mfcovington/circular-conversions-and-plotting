@@ -6,7 +6,7 @@ library(circular)
 
 polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
                        hours = TRUE, avg = TRUE, angle.axis = -90,
-                       reverse = TRUE) {
+                       reverse = TRUE, simple.radius = FALSE) {
 
   # r = radius
   # theta = hours in a 24 hour clock (Default) or radian (if hours = FALSE)
@@ -34,7 +34,12 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   parrow <- function(r,theta,pch=NULL,col=NULL) {
     #plots arrows that have the mean radius and angle of the group sent
     theta <- circular(theta,units="radians")
-    arrows(0, 0, mean(r) * cos(mean(theta)), mean(r) * sin(mean(theta)),
+    if (simple.radius) {
+      r.mean <- mean(r)
+    } else {
+      r.mean <- sqrt(mean(sin(theta)) ^ 2 + mean(cos(theta)) ^ 2)
+    }
+    arrows(0, 0, mean.r * cos(mean(theta)), mean.r * sin(mean(theta)),
       lwd = 4, col = col)
   }
 
