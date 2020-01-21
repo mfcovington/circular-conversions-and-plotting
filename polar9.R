@@ -6,13 +6,14 @@ library(circular)
 
 polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
                        hours = TRUE, avg = TRUE, angle.axis = -90,
-                       reverse = TRUE, simple.radius = FALSE) {
+                       reverse = TRUE, simple.radius = FALSE, bg = NULL) {
 
   # r = radius
   # theta = hours in a 24 hour clock (Default) or radian (if hours = FALSE)
   # grp = a vector the same length as r and theta, describing the grouping structure
   # pch = a single pch or up to one pch per group
   # col = a single color, or up to one color per group
+  # bg = a single color, or up to one color per group (only for pch 21-25)
   # hours: is theta given in hours (Default) or radians?
   # avg: should a arrow be plotted corresponding to the average of each group?
   # reverse: should lower r values be plotted to the inside or outside of the circle?
@@ -22,13 +23,15 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   if (length(pch) < nlevels(grp)) pch <- rep(pch, length.out = nlevels(grp))
 
   if (!is.null(col)) col <- as.character(col)
+  if (!is.null(bg)) bg <- as.character(bg)
 
   if (length(col) < nlevels(grp)) col <- rep(col, length.out = nlevels(grp))
+  if (length(bg) < nlevels(grp)) bg <- rep(bg, length.out = nlevels(grp))
 
-  pplot <- function(r, theta, pch = NULL, col = NULL){
+  pplot <- function(r, theta, pch = NULL, col = NULL, bg = NULL){
     # plot points on a polar chart
     # put the points on the graph
-    points(r * cos(theta), r * sin(theta), col = col, pch = pch,cex=2)
+    points(r * cos(theta), r * sin(theta), col = col, bg = bg, pch = pch, cex=2)
   }
 
   parrow <- function(r, theta, pch = NULL, col = NULL) {
@@ -107,12 +110,12 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   # text(rpretty[-1] * cos(angle.axis * pi / 180), rpretty[-1] * sin(angle.axis * pi / 180), rpretty[-1])
 
   if (is.null(grp)){ # no groups
-    pplot(r, theta, pch, col) #plot the points
+    pplot(r, theta, pch, col, bg) #plot the points
     if (avg == TRUE) parrow (r, theta, pch, col) # plot an arrow if required
   } else { # grps exist
     for (i in 1: nlevels(grp)) {#plot points, group by group
       level <- levels(grp)[i]
-      pplot(r[grp == level], theta[grp == level], pch = pch[i], col = col[i])
+      pplot(r[grp == level], theta[grp == level], pch = pch[i], col = col[i], bg = bg[i])
     }
     #arrow are plotted after all points, so that the arrows are "on top"
     if (avg == TRUE) {
