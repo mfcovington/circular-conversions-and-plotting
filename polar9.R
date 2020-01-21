@@ -25,13 +25,13 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
 
   if (length(col) < nlevels(grp)) col <- rep(col, length.out = nlevels(grp))
 
-  pplot <- function(r,theta,pch=NULL,col=NULL){
+  pplot <- function(r, theta, pch = NULL, col = NULL){
     # plot points on a polar chart
     # put the points on the graph
     points(r * cos(theta), r * sin(theta), col = col, pch = pch,cex=2)
   }
 
-  parrow <- function(r,theta,pch=NULL,col=NULL) {
+  parrow <- function(r, theta, pch = NULL, col = NULL) {
     #plots arrows that have the mean radius and angle of the group sent
     theta <- circular(theta,units="radians")
     if (simple.radius) {
@@ -39,7 +39,7 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
     } else {
       r.mean <- sqrt(mean(sin(theta)) ^ 2 + mean(cos(theta)) ^ 2)
     }
-    arrows(0, 0, mean.r * cos(mean(theta)), mean.r * sin(mean(theta)),
+    arrows(0, 0, r.mean * cos(mean(theta)), r.mean * sin(mean(theta)),
       lwd = 4, col = col)
   }
 
@@ -126,48 +126,3 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
 
 # end R. Ihaka section
 
-
-hours <- c(rnorm(10, 3, 2), rnorm(10, 6, 2.5), rnorm(10, 15))
-
-rae <- c(rnorm(10, 0.3, 0.2), rnorm(10, 0.5, 0.2), rnorm(10, 0.2, 0.1))
-
-grp <- factor(rep(c("A", "B", "C"), each = 10))
-
-polar.plot(rae, hours, pch = 20, grp = grp, col = c("blue", "red", "green"))
-
-
-
-# stacey notes:
-
-# pch specifies:
-# 15 = filled square
-# 17 = solid triangle, upright
-# 18 = solid diamond (way too small)
-# 19 = solid circle (too small)
-# 20 = solid diamond (too small)
-
-polar.plot(RAE, CT_phase, pch = 20, grp = construct, col = c("black", "gray"))
-
-polar.plot(RAE, CT_phase, pch = c(15, 17), grp = construct, col = c("black", "gray60"))
-
-polar.plot(RAE, CT_phase, pch = c(15, 17), grp = construct, col = c("black", "gray50"
-
-polar.plot(RAE, CT_phase, pch = c(15, 17), grp = construct, col = c("black", "gray50"))
-
-polar.plot(RAE, CT_phase, pch = c(20, 17), grp = construct, col = c("black", "gray50"))
-
-# I like that last one.
-
-
-polar.plot(RAE, CT_phase, pch = c(3, 20), grp = construct, col = c("black", "gray50"))
-
-# used this one for TL1EE and mt
-
-# how do I load a text file?
-# > flanking<-read.table("flanking_phases_083004.txt",header=T)
-
-# how do I get everything where it needs to be?
-# > attach(flanking)
-
-# then plot
-# polar.plot(rae,pos_phase,pch=20,grp=construct,col=c("green","blue","gray","red"))
