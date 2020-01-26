@@ -6,7 +6,9 @@ library(circular)
 
 polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
                        hours = TRUE, avg = TRUE, angle.axis = -90,
-                       reverse = TRUE, simple.radius = FALSE, bg = NULL) {
+                       reverse = TRUE, simple.radius = FALSE, bg = NULL,
+                       grid.color = 'gray60', night.color = 'gray30',
+                       night.start = NULL, night.end = 24) {
 
   # r = radius
   # theta = hours in a 24 hour clock (Default) or radian (if hours = FALSE)
@@ -78,6 +80,24 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   # print(by(r,grp,mean))
   # print(by(rae,grp,mean))
 
+  if(!is.null(night.start) && !is.null(night.end) && night.start != night.end) {
+    plot.night <- TRUE
+    if(night.end == 0) {
+      warning('The end of night is set to 0. Internally, this is being changed to the equivalent value of 24.')
+      night.end <- 24
+    }
+    if(night.end != 24) {
+      warning(paste0('The end of night is set to ', night.end, '. By definition, night ends at dawn, which should be 0.'))
+    }
+    if(night.start > night.end) {
+      stop(paste0('The start of night (', night.start, ') must be earlier than the end of night (', night.end, ').'))
+    } else {
+      nightshade <- seq(0.5 * pi - 2 * pi * (- 24 + night.end) / 24, 0.5 * pi - 2 * pi * (- 24 + night.start) / 24, length = 360 )
+      # polygon(c(0, cos(nightshade)), c(0, sin(nightshade)), col = night.color)
+    }
+  } else {
+    plot.night <- FALSE
+  }
 
   ## Begin a new plot.
 
@@ -95,14 +115,9 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   ## - The circles are really polygons with many vertices.
   grid <- seq(0, 2 * pi, length = 360 )
 
-  grid.color <- 'gray60'
-  night.color <- 'gray30'
-
-  night.start <- 13.25
-  night.end <- 24
-
-  nightshade <- seq(0.5 * pi - 2 * pi * (- 24 + night.end) / 24, 0.5 * pi - 2 * pi * (- 24 + night.start) / 24, length = 360 )
-  polygon(c(0, cos(nightshade)), c(0, sin(nightshade)), col = night.color)
+  if(plot.night) {
+    polygon(c(0, cos(nightshade)), c(0, sin(nightshade)), col = night.color)
+  }
 
   for(rad in rpretty) {
     if(rad > 0) lines(rad * cos(grid), rad * sin(grid), col = grid.color)
