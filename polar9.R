@@ -28,13 +28,13 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   if (length(col) < nlevels(grp)) col <- rep(col, length.out = nlevels(grp))
   if (length(bg) < nlevels(grp)) bg <- rep(bg, length.out = nlevels(grp))
 
-  pplot <- function(r, theta, pch = NULL, col = NULL, bg = NULL){
+  pplot <- function(r, theta, pch = NULL, col = NULL, bg = NULL, width=1){
     # plot points on a polar chart
     # put the points on the graph
-    points(r * cos(theta), r * sin(theta), col = col, bg = bg, pch = pch, cex=2)
+    points(r * cos(theta), r * sin(theta), col = col, bg = bg, pch = pch, cex=2, lwd=width)
   }
 
-  parrow <- function(r, theta, pch = NULL, col = NULL) {
+  parrow <- function(r, theta, pch = NULL, col = NULL, width=4) {
     #plots arrows that have the mean radius and angle of the group sent
     theta <- circular(theta,units="radians")
     if (simple.radius) {
@@ -43,7 +43,7 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
       r.mean <- sqrt(mean(sin(theta)) ^ 2 + mean(cos(theta)) ^ 2)
     }
     arrows(0, 0, r.mean * cos(mean(theta)), r.mean * sin(mean(theta)),
-      lwd = 4, col = col)
+      lwd = width, col = col)
   }
 
   # convert hours to radians in a polar coordinate system
@@ -123,6 +123,10 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
     pplot(r, theta, pch, col, bg) #plot the points
     if (avg == TRUE) parrow (r, theta, pch, col) # plot an arrow if required
   } else { # grps exist
+    for (i in 1: nlevels(grp)) {#plot backlighting for points, group by group
+      level <- levels(grp)[i]
+      pplot(r[grp == level], theta[grp == level], pch = pch[i], col = 'white', bg = 'white', width=2)
+    }
     for (i in 1: nlevels(grp)) {#plot points, group by group
       level <- levels(grp)[i]
       pplot(r[grp == level], theta[grp == level], pch = pch[i], col = col[i], bg = bg[i])
@@ -131,6 +135,7 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
     if (avg == TRUE) {
       for (i in 1:nlevels(grp)) {#plot arrow, group by group
         level <- levels(grp)[i]
+        parrow(r[grp == level], theta[grp == level], pch = pch[i], col = 'white', width=5)
         parrow(r[grp == level], theta[grp == level], pch = pch[i], col = col[i])
       } # for i
     } # if avg
