@@ -94,15 +94,25 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   ## Draw a circular grid.
   ## - The circles are really polygons with many vertices.
   grid <- seq(0, 2 * pi, length = 360 )
+
+  grid.color <- 'gray60'
+  night.color <- 'gray30'
+
+  night.start <- 13.25
+  night.end <- 24
+
+  nightshade <- seq(0.5 * pi - 2 * pi * (- 24 + night.end) / 24, 0.5 * pi - 2 * pi * (- 24 + night.start) / 24, length = 360 )
+  polygon(c(0, cos(nightshade)), c(0, sin(nightshade)), col = night.color)
+
   for(rad in rpretty) {
-    if(rad > 0) lines(rad * cos(grid), rad * sin(grid), col = "gray30")
+    if(rad > 0) lines(rad * cos(grid), rad * sin(grid), col = grid.color)
   }
 
   # Draw a radial grid in "gray".
   ## The use of "12" gives divisions into 30 degree slices.
 
   rad <- seq(0, 2 * pi, length = 12 + 1)[-1]
-  segments(0, 0, rmax * cos(rad), rmax * sin(rad), col = "gray30")
+  segments(0, 0, rmax * cos(rad), rmax * sin(rad), col = grid.color)
 
   ## Basic axis labelling.
   ## Labels appear along the ray at angle "angle.axis" to the x axis.
