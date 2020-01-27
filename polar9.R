@@ -8,7 +8,8 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
                        hours = TRUE, avg = TRUE, angle.axis = -90,
                        reverse = TRUE, simple.radius = FALSE, bg = NULL,
                        grid.color = 'gray60', night.color = 'gray30',
-                       night.start = NULL, night.end = 24, label.hours = TRUE) {
+                       night.start = NULL, night.end = 24,
+                       label.hours = TRUE, hours.to.label = c(0, 6, 12, 18)) {
 
   # r = radius
   # theta = hours in a 24 hour clock (Default) or radian (if hours = FALSE)
@@ -135,7 +136,7 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
   # text(rpretty[-1] * cos(angle.axis * pi / 180), rpretty[-1] * sin(angle.axis * pi / 180), rpretty[-1])
 
   if (hours && label.hours) {
-    for (hr in c(0, 6, 12, 18)) {
+    for (hr in hours.to.label) {
       angle.hour <- 90 + 360 * (24 - hr) / 24
       text((1.05 * rmax) * cos(angle.hour * pi / 180), (1.05 * rmax) * sin(angle.hour * pi / 180), hr)
     }
