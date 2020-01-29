@@ -8,7 +8,8 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
                        reverse = TRUE, simple.radius = FALSE, bg = NULL,
                        grid.color = 'gray60', night.color = 'gray30',
                        night.start = NULL, night.end = 24,
-                       label.hours = TRUE, hours.to.label = c(0, 6, 12, 18)) {
+                       label.hours = TRUE, hours.to.label = c(0, 6, 12, 18),
+                       show.legend = TRUE, legend.title = NULL) {
 
   # r = radius
   # theta = hours in a 24 hour clock (Default) or radian (if hours = FALSE)
@@ -162,6 +163,12 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
       } # for i
     } # if avg
   } # else
+
+  if (show.legend) {
+    legend("topleft", legend=levels(grp), fill=col, cex=1, inset=0.01,
+      title=legend.title)
+  }
+
 } # polar.plot
 
 # end R. Ihaka section
