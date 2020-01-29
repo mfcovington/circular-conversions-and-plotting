@@ -2,7 +2,6 @@
 # It is assumed that "r" is given in radians.
 # Taken from R. Ihaka's post to R-help
 
-library(circular)
 
 polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
                        hours = TRUE, avg = TRUE, angle.axis = -90,
@@ -39,7 +38,7 @@ polar.plot <- function(r, theta, grp = NULL, pch = NULL, col = NULL,
 
   parrow <- function(r, theta, pch = NULL, col = NULL, width=4) {
     #plots arrows that have the mean radius and angle of the group sent
-    theta <- circular(theta,units="radians")
+    theta <- circular::circular(theta,units="radians")
     if (simple.radius) {
       r.mean <- mean(r)
     } else {
