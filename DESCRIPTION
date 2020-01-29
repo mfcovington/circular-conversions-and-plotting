@@ -2,6 +2,8 @@ Package: clockplot
 Version: 0.0.0.9000
 Date: 2020-01-27
 Title: Tools for plotting circadian and diurnal data
+Description: The clockplot package contains tools for plotting circadian and
+    diurnal data.
 Authors@R: c(
     person(c("Michael", "F."), "Covington", role = c("aut", "cre"),
         comment = "Further Development", email = "mfcovington@gmail.com"),
