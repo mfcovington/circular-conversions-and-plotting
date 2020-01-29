@@ -1,0 +1,19 @@
+Package: clockplot
+Version: 0.0.0.9000
+Date: 2020-01-27
+Title: Tools for plotting circadian and diurnal data
+Authors@R: c(
+    person(c("Michael", "F."), "Covington", role = c("aut", "cre"),
+        comment = "Further Development", email = "mfcovington@gmail.com"),
+    person(c("Julin", "N."), "Maloof", role = "aut",
+        comment = "Plotting in hours and implementing a summary arrow",
+        email = "jnmaloof@ucdavis.edu"),
+    person("Ross", "Ihaka", role = "aut", comment =
+        "Initial implementation of polar plot on R Help: https://hypatia.math.ethz.ch/pipermail/r-help/2001-May/013018.html",
+        email = "ihaka@stat.auckland.ac.nz"))
+Depends: R (>= 3.0.0)
+License: MIT + file LICENSE
+Imports:
+    circular (>= 0.4-93)
+URL: https://github.com/mfcovington/circular-conversions-and-plotting
+BugReports: https://github.com/mfcovington/circular-conversions-and-plotting/issues
